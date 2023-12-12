@@ -1,9 +1,25 @@
 import Input from '../UI/Input';
+import {useRef,} from 'react';
 import classes from './MealItemForm.module.css';
 
-const MealItemForm = () => {
-    return <form className={classes.form}>
-        <Input label='Amount' input={{
+const MealItemForm = (props) => {
+    
+    const amountInputRef = useRef();
+   
+    const submitHandler = (event) => {
+        event.PreventDefault();
+
+        const enteredAmount = amountInputRef.current.value;
+        const enteredAmountNumber = +enteredAmount;
+        
+        if(enteredAmount.trim().length === 0 || enteredAmountNumber < 1 || enteredAmountNumber > 5){
+            return;
+        }
+
+    };
+
+    return <form className={classes.form} onSubmit={submitHandler}>
+        <Input ref={amountInputRef} label='Amount' input={{
             id: 'amount',
             type: 'number',
             min: '1',
@@ -11,7 +27,7 @@ const MealItemForm = () => {
             step: '1',
             defaultValue: '1'
         }} />
-        <button>+ Add</button>
+        <button >+ Add</button>
     </form>
 }
 
